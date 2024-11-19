@@ -5,6 +5,7 @@ import {
 } from 'react-icons/fa';
 import LogoCTXY from '../img/LogoCTXY.jpg';
 import {useLanguage} from '../pages/LanguageContext'
+// import 
 
 const Sidebar = () => {
   const [isInventoryOpen, setIsInventoryOpen] = useState(false);
@@ -107,7 +108,7 @@ const Sidebar = () => {
                 }`}
                 onClick={() => handleNotificationClick('pedidos')}
               >
-                <FaClipboardList className="mr-2" /> Inventario Pedidos
+                <FaClipboardList className="mr-2" /> {language === 'es ' ? 'Inventario Pedidos':'Inventory Orders'}
                 {notifications.pedidos > 0 && (
                   <span className="ml-auto bg-red-600 text-white text-xs px-2 py-1 rounded-full">
                     {notifications.pedidos}

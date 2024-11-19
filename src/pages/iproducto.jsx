@@ -5,8 +5,10 @@ import { CgAdd } from "react-icons/cg";
 import { VscEdit } from "react-icons/vsc";
 import { FaBoxes, FaCogs, FaPalette } from "react-icons/fa"; // Íconos agregados
 import Rproductos from './rproductos';
+import {useLanguage} from '../pages/LanguageContext'
 
-const URI = 'https://backend2-mhjh.onrender.com/api/productos/';
+
+const URI = 'http://localhost:8000/api/productos/';
 
 function IProducto() {
   const [productos, setProductos] = useState([]);
@@ -15,6 +17,8 @@ function IProducto() {
   const [modalVisible, setModalVisible] = useState(false);
   const [numRecords, setNumRecords] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
+  const {language} = useLanguage();
+
 
   useEffect(() => {
     getProductos();
@@ -50,14 +54,14 @@ function IProducto() {
           {/* Title with Icon */}
           <h1 className="text-4xl font-bold text-black flex items-center space-x-2">
             <FaBoxes className="text-orange-500" />
-            <span>Inventario de Material</span>
+            <span>{language === 'es' ? 'Inventario Material' : 'Material Inventory'}</span>
           </h1>
         </div>
         
         <div className="my-8 flex justify-between items-center space-x-4">
           <input
             type="text"
-            placeholder="Buscar..."
+            placeholder={language === 'es' ? 'Buscar...':'Search..'}
             className="w-full max-w-xs p-3 rounded-lg border-2 border-purple-600 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -73,7 +77,7 @@ function IProducto() {
             </button>
             {showTooltip === 'add' && (
               <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-purple-600 text-white text-lg rounded shadow-lg z-10">
-                Registrar Nuevo
+               {language === 'es' ? 'Registrar Nuevo' :'Register new'} 
               </div>
             )}
           </div>
@@ -82,9 +86,13 @@ function IProducto() {
         <div className="overflow-x-auto bg-gray-900 border border-purple-200 shadow-2xl shadow-purple-600/100 rounded-lg">
           {/* Selector de registros y mostrador de registros totales */}
           <div className="flex justify-between items-center p-4 bg-gray-900 text-white">
-            <span className="text-sm">Mostrando {Math.min(numRecords, filteredProductos.length)} de {filteredProductos.length} productos</span>
+          <span className="text-sm">
+            {language === 'es' 
+              ? `Mostrando ${Math.min(numRecords, filteredProductos.length)} de ${filteredProductos.length} productos`
+              : `Showing ${Math.min(numRecords, filteredProductos.length)} of ${filteredProductos.length} products`}
+          </span>
             <div className="flex items-center space-x-2">
-              <label htmlFor="numRecords" className="text-sm">Registros por página:</label>
+              <label htmlFor="numRecords" className="text-sm">{language === 'es'? 'Registros por página:':'Records per page:'}</label>
               <select
                 id="numRecords"
                 value={numRecords}
@@ -105,10 +113,10 @@ function IProducto() {
           <table className="min-w-full text-sm text-left text-white-400">
             <thead className="bg-purple-700 text-white-300 uppercase">
               <tr>
-                <th className="px-6 py-3">Cantidad</th>
-                <th className="px-6 py-3">Material</th>
-                <th className="px-6 py-3">Color</th>
-                <th className="px-6 py-3">Acciones</th>
+                <th className="px-6 py-3">{language === 'es' ? 'Cantidad':'Quantity'}</th>
+                <th className="px-6 py-3">{language === 'es' ? 'Material':'Material'}</th>
+                <th className="px-6 py-3">{language === 'es' ? 'Color':'Color'}</th>
+                <th className="px-6 py-3">{language === 'es' ? 'Acciones':'Actions'}</th>
               </tr>
             </thead>
             <tbody>
@@ -132,7 +140,7 @@ function IProducto() {
                       </Link>
                       {showTooltip === producto.id_producto && (
                         <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-purple-600 text-white text-sm rounded">
-                          Editar
+                          {language === 'es' ? 'Editar':'Edit'}
                         </div>
                       )}
                     </td>
@@ -141,7 +149,7 @@ function IProducto() {
               ) : (
                 <tr>
                   <td colSpan="4" className="px-6 py-4 text-center">
-                    No hay datos disponibles
+                  {language === 'es' ? 'No hay datos disponibles':'No data available'}
                   </td>
                 </tr>
               )}
