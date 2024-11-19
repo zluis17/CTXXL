@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import LogoCTXY from '../img/LogoCTXY.jpg'; 
 
 
-const URI = 'http:localhost:8000/api/administrador/';
+const URI = 'https://backend2-mhjh.onrender.com/api/administrador/';
 
 function Registro() {
   const [Nombre, setNombre] = useState('');
