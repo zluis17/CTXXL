@@ -48,7 +48,7 @@ function Login() {
 
     try {
       const endpoint = tipoUsuario === 'administrador'
-        ? 'https://backend2-mhjh.onrender.com/api/administrador/login'
+        ? 'http:localhost:8000/api/administrador/login'
         : 'https://backend2-mhjh.onrender.com/api/empleado/login';
 
       console.log('Enviando datos:', { correo, contraseña, tipoUsuario, recordarContraseña });
