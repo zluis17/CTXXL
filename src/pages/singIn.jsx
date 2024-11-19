@@ -48,8 +48,8 @@ function Login() {
 
     try {
       const endpoint = tipoUsuario === 'administrador'
-        ? 'https://backend2-mhjh.onrender.com/api/administrador/login'
-        : 'https://backend2-mhjh.onrender.com/api/empleado/login';
+        ? 'https://backend2-h0wv.onrender.com/api/administrador/login'
+        : 'https://backend2-h0wv.onrender.com/api/empleado/login';
 
       console.log('Enviando datos:', { correo, contraseña, tipoUsuario, recordarContraseña });
       const response = await fetch(endpoint, {
