@@ -6,13 +6,14 @@ import { useLanguage } from '../pages/LanguageContext';
 import '../index.css';
 import { Link } from 'react-router-dom';
 
+
 const Navbar = () => {
     const [notificationsOpen, setNotificationsOpen] = useState(false);
     const [configOpen, setConfigOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [isNavbarVisible, setIsNavbarVisible] = useState(false); // Estado inicial oculto
 
-    const { language, changeLanguage } = useLanguage();
+    const { language} = useLanguage();
 
     const toggleNotifications = () => setNotificationsOpen(prev => !prev);
     const closeNotifications = () => setNotificationsOpen(false);
@@ -81,7 +82,7 @@ const Navbar = () => {
                                 onMouseLeave={closeNotifications}
                             >
                                 <div className="p-4 border-b border-gray-200 font-semibold">
-                                    Notificaciones
+                                {language === 'es' ? 'Notificaciones':'Notifications'}
                                 </div>
                                 <ul className="py-1">
                                     {notifications.length > 0 ? (
@@ -92,23 +93,14 @@ const Navbar = () => {
                                         ))
                                     ) : (
                                         <li className="px-4 py-2 text-gray-500">
-                                            Sin notificaciones
+                                            {language === 'es' ? 'Sin notificaciones':'No notifications'}
                                         </li>
                                     )}
                                 </ul>
                             </div>
                         )}
                     </div>
-                    <div className="relative">
-                        <select
-                            value={language}
-                            onChange={(e) => changeLanguage(e.target.value)}
-                            className="bg-gray-700 text-white p-2 rounded"
-                        >
-                            <option value="es">{language === 'es' ? 'Español' : 'Spanish'}</option>
-                            <option value="en">{language === 'es' ? 'Inglés' : 'English'}</option>
-                        </select>
-                    </div>
+                    
                     <div className="relative">
                         <button onClick={toggleDropdown} className="bg-transparent border-none cursor-pointer">
                             <img 
@@ -128,14 +120,14 @@ const Navbar = () => {
                                         onClick={openConfig}
                                     >
                                         <MdSettings className="mr-2" />
-                                        Configuración
+                                        {language === 'es' ? 'Configuración':'Configuration'}
                                     </li>
                                     <Link
                                         to="/salida"
                                         className="px-4 py-2 text-center text-gray-600 cursor-pointer hover:text-black"
                                         onClick={closeDropdown}
                                     >
-                                        Cerrar Sesion
+                                        {language === 'es' ? 'Cerrar Sesion':'Log out'}
                                     </Link>
                                 </ul>
                             </div>

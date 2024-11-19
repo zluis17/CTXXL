@@ -6,8 +6,10 @@ import { FaBoxes, FaUserAlt, FaTshirt, FaPalette, FaTags, FaRuler, FaDollarSign 
 import RPedidos from './rpedidos'; 
 import Apedidos from './apedido'; 
 import { Link } from 'react-router-dom';
+import {useLanguage} from '../pages/LanguageContext'
 
-const URI = 'https://backend2-mhjh.onrender.com/api/pedidos/';
+
+const URI = 'http://localhost:8000/api/pedidos/';
 
 function IPedidos() {
   const [pedidos, setPedidos] = useState([]);
@@ -18,6 +20,8 @@ function IPedidos() {
   
   const [numRecords, setNumRecords] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
+  const {language} = useLanguage();
+
 
   useEffect(() => {
     getPedidos();
@@ -53,14 +57,14 @@ function IPedidos() {
           {/* Título con icono */}
           <h1 className="text-4xl font-bold text-black flex items-center space-x-2">
             <FaBoxes className="text-orange-500" />
-            <span>Inventario de Pedidos</span>
+            <span>{language === 'es' ? 'Inventario Pedidos' : 'Inventory Orders'}</span>
           </h1>
         </div>
 
         <div className="my-8 flex justify-between items-center space-x-4">
           <input
             type="text"
-            placeholder="Buscar por cliente, prenda..."
+            placeholder={language === 'es' ? 'Buscar por cliente, prenda...':'Search by customer, item...'}
             className="w-full max-w-xs p-3 rounded-lg border-2 border-purple-600 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -76,7 +80,7 @@ function IPedidos() {
             </button>
             {showTooltip === 'add' && (
               <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-4 py-2 bg-purple-600 text-white text-lg rounded shadow-lg z-10">
-                Registrar Nuevo
+               {language === 'es' ? 'Registrar Nuevo' :'Register new'} 
               </div>
             )}
           </div>
@@ -84,9 +88,13 @@ function IPedidos() {
 
         <div className="overflow-x-auto bg-gray-900 border border-purple-200 shadow-lg shadow-purple-600/100 rounded-lg">
           <div className="flex justify-between items-center p-4 bg-gray-900 text-white">
-            <span className="text-sm">Mostrando {Math.min(numRecords, filteredPedidos.length)} de {filteredPedidos.length} pedidos</span>
+          <span className="text-sm">
+            {language === 'es' 
+              ? `Mostrando ${Math.min(numRecords, filteredPedidos.length)} de ${filteredPedidos.length} pedidos`
+              : `Showing ${Math.min(numRecords, filteredPedidos.length)} of ${filteredPedidos.length} orders`}
+          </span>
             <div className="flex items-center space-x-2">
-              <label htmlFor="numRecords" className="text-sm">Registros por página:</label>
+              <label htmlFor="numRecords" className="text-sm">{language === 'es'? 'Registros por página:':'Records per page:'}</label>
               <select
                 id="numRecords"
                 value={numRecords}
@@ -107,16 +115,16 @@ function IPedidos() {
           <table className="min-w-full text-sm text-left text-gray-400">
             <thead className="bg-purple-700 text-white uppercase">
               <tr>
-                <th className="px-6 py-3">Cliente</th>
-                <th className="px-6 py-3">Prenda</th>
-                <th className="px-6 py-3">Tela</th>
-                <th className="px-6 py-3">Estampado</th>
-                <th className="px-6 py-3">Cantidad</th>
-                <th className="px-6 py-3">Talla</th>
-                <th className="px-6 py-3">Bordado</th>
-                <th className="px-6 py-3">Precio Inicial</th>
-                <th className="px-6 py-3">Precio Final</th>
-                <th className="px-6 py-3">Acciones</th>
+                <th className="px-6 py-3">{language === 'es' ? 'Cliente':'Customer'}</th>
+                <th className="px-6 py-3">{language === 'es' ? 'Prenda':'Garment'}</th>
+                <th className="px-6 py-3">{language === 'es' ? 'Tela':'Fabric'}</th>
+                <th className="px-6 py-3">{language === 'es' ? 'Estampado':'Printing'}</th>
+                <th className="px-6 py-3">{language === 'es' ? 'Cantidad':'Quantity'}</th>
+                <th className="px-6 py-3">{language === 'es' ? 'Talla':'Carving'}</th>
+                <th className="px-6 py-3">{language === 'es' ? 'Bordado':'Embroidery'}</th>
+                <th className="px-6 py-3">{language === 'es' ? 'Precio Inicial':'Initial Price'}</th>
+                <th className="px-6 py-3">{language === 'es' ? 'Precio Final':'Final Price'}</th>
+                <th className="px-6 py-3">{language === 'es' ? 'Acciones':'Actions'}</th>
               </tr>
             </thead>
             <tbody>
@@ -149,7 +157,7 @@ function IPedidos() {
               ) : (
                 <tr>
                   <td colSpan="10" className="px-6 py-4 text-center">
-                    No hay datos disponibles
+                  {language === 'es' ? 'No hay datos disponibles':'No data available'}
                   </td>
                 </tr>
               )}

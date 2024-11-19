@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import {useLanguage} from '../pages/LanguageContext'
 
 const ContactModal = ({ setModalVisible }) => {
     const [alert, setAlert] = useState({ message: '', type: '' });
+    const {language} = useLanguage();
 
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -50,7 +52,7 @@ const ContactModal = ({ setModalVisible }) => {
                 className="bg-gray-700 p-8 rounded-lg shadow-lg max-w-4xl w-full"
                 onClick={(e) => e.stopPropagation()} // Evitar cerrar el modal al hacer clic en su contenido
             >
-                <h2 className="text-3xl text-center mb-6 text-black">Formulario De Contacto</h2>
+                <h2 className="text-3xl text-center mb-6 text-black">{language === 'es' ? 'Formulario De Contacto':'contact form'}</h2>
 
                 {/* Mostrar alertas */}
                 {alert.message && (
@@ -64,23 +66,23 @@ const ContactModal = ({ setModalVisible }) => {
                         {/* Primera columna */}
                         <div className="space-y-4">
                             <div>
-                                <label className="block mb-2 text-black">Nombre Completo</label>
+                                <label className="block mb-2 text-black">{language === 'es' ? 'Nombre Completo':'Full Name'}</label>
                                 <input
                                     type="text"
                                     name="name"
                                     minLength="3"
                                     className="w-full p-2 bg-transparent border-b-2 border-purple-600 text-white rounded focus:outline-none focus:ring focus:ring-purple-300 transition duration-200 hover:border-purple-700"
-                                    placeholder="Ingrese Su Nombre"
+                                    placeholder={language === 'es' ? 'Ingrese Su Nombre':'Enter your name'}
                                     required
                                 />
                             </div>
                             <div>
-                                <label className="block mb-2 text-black">Correo Electrónico</label>
+                                <label className="block mb-2 text-black">{language === 'es' ? 'Correo Electrónico':'Email Address'}</label>
                                 <input
                                     type="email"
                                     name="email"
                                     className="w-full p-2 bg-transparent border-b-2 border-purple-600 text-white rounded focus:outline-none focus:ring focus:ring-purple-300 transition duration-200 hover:border-purple-700"
-                                    placeholder="Ingresa tu E-mail"
+                                    placeholder={language === 'es' ? 'Ingresa tu email':'Enter your email address'}
                                     required
                                 />
                             </div>
@@ -89,12 +91,12 @@ const ContactModal = ({ setModalVisible }) => {
                         {/* Segunda columna */}
                         <div className="space-y-4">
                             <div>
-                                <label className="block mb-2 text-black">Tu Mensaje:</label>
+                                <label className="block mb-2 text-black">{language === 'es' ? 'Tu Mensaje:':'Your Message:'}</label>
                                 <textarea
                                     name="message"
                                     minLength="10"
                                     className="w-full p-2 bg-transparent border-b-2 border-purple-600 text-white rounded focus:outline-none focus:ring focus:ring-purple-300 transition duration-200 hover:border-purple-700"
-                                    placeholder="Aquí va Tu Mensaje"
+                                    placeholder={language === 'es' ? 'Aquí va Tu Mensaje':'Here’s your message'}
                                     required
                                 ></textarea>
                             </div>
@@ -107,13 +109,13 @@ const ContactModal = ({ setModalVisible }) => {
                             type="button"
                             className="px-6 py-3 bg-gray-500 text-white font-semibold rounded-md mr-2 hover:bg-gray-700 transition duration-300"
                         >
-                            Cancelar
+                           {language === 'es' ? 'Cancelar':'Cancel'} 
                         </button>
                         <button
                             type="submit"
                             className="px-6 py-3 bg-purple-500 text-white font-semibold rounded-md hover:bg-purple-600 transition duration-300"
                         >
-                            Envía el Mensaje
+                            {language === 'es' ? 'Envía el Mensaje':'Send your message'}
                         </button>
                     </div>
                 </form>
