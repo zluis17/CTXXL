@@ -237,7 +237,7 @@ function REmpleados() {
                                         <option value="">Selecciona un administrador</option>
                                         {administrador.map((admin) => (
                                             <option key={admin.id_administrador} value={admin.id_administrador}>
-                                                {admin.nombre}
+                                                {admin.Nombre}
                                             </option>
                                         ))}
                                     </select>
