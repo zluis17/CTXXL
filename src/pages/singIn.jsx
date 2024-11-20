@@ -5,7 +5,7 @@ import PasswordResetForm from './RecuperarContra';
 import LogoCTXY from '../img/LogoCTXY.jpg'; 
 
 function Login() {
-  const [Correo, setCorreo] = useState('');
+  const [correo, setCorreo] = useState('');
   const [contraseña, setContraseña] = useState('');
   const [tipoUsuario, setTipoUsuario] = useState('administrador'); // Estado para el tipo de usuario
   const [recordarContraseña, setRecordarContraseña] = useState(false); // Estado para recordar contraseña
