@@ -10,7 +10,7 @@ import {useLanguage} from '../pages/LanguageContext';
 /// import React from  
 
 
-const URI = 'http://localhost:8000/api/Empleado/';
+const URI = 'https://backend2-2h6s.onrender.com/api/Empleado/';
 
 function IEmpleados() {
   const [Empleados, setEmpleados] = useState([]);
