@@ -5,7 +5,7 @@ import PasswordResetForm from './RecuperarContra';
 import LogoCTXY from '../img/LogoCTXY.jpg'; 
 
 function Login() {
-  const [correo, setCorreo] = useState('');
+  const [Correo, setCorreo] = useState('');
   const [contraseña, setContraseña] = useState('');
   const [tipoUsuario, setTipoUsuario] = useState('administrador'); // Estado para el tipo de usuario
   const [recordarContraseña, setRecordarContraseña] = useState(false); // Estado para recordar contraseña
@@ -16,14 +16,14 @@ function Login() {
   const navigate = useNavigate();
 
   const validateForm = () => {
-    if (!correo || !contraseña) {
+    if (!Correo || !contraseña) {
       setError('Por favor, completa todos los campos.');
       return false;
     }
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.(com|net|org|info|biz|co|[a-z]{2})$/i;
 
-    if (!emailPattern.test(correo)) {
+    if (!emailPattern.test(Correo)) {
       setError('Por favor, introduce un correo electrónico válido.');
       return false;
     }
@@ -51,7 +51,7 @@ function Login() {
         ? 'https://backend2-2h6s.onrender.com/api/administrador/login'
         : 'https://backend2-2h6s.onrender.com/api/empleado/login';
 
-      console.log('Enviando datos:', { correo, contraseña, tipoUsuario, recordarContraseña });
+      console.log('Enviando datos:', { Correo, contraseña, tipoUsuario, recordarContraseña });
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
@@ -108,8 +108,8 @@ function Login() {
             <label className="block text-white mb-2" htmlFor="correo">Correo Electrónico</label>
             <input
               type="email"
-              id="correo"
-              value={correo}
+              id="Correo"
+              value={Correo}
               onChange={(e) => setCorreo(e.target.value)}
               className="w-full px-4 py-3 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-violet-900"
               required  
