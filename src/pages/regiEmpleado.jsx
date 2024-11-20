@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const URI = 'https://backend2-mhjh.onrender.com/api/Empleado/';
-const URI_ADMIN = 'https://backend2-mhjh.onrender.com/api/administrador';
+const URI = 'https://backend2-2h6s.onrender.com/api/Empleado/';
+const URI_ADMIN = 'https://backend2-2h6s.onrender.com/api/administrador';
 
 function REmpleados() {
     const [Nombre, setNombre] = useState('');
