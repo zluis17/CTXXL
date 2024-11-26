@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useLanguage } from './LanguageContext'; // Importar el hook del contexto
+
 
 const URI = 'https://backend2-mhjh.onrender.com/api/pedidos/';
 const URI_ADMIN = 'https://backend2-mhjh.onrender.com/api/administrador';
 const URI_EMPLEADO = 'https://backend2-mhjh.onrender.com/api/empleado';
 
+
 function RPedidos() {
+    const {language} = useLanguage();
     const [Cliente, setCliente] = useState('');
     const [Cantidad, setCantidad] = useState(1);
     const [Prenda, setPrenda] = useState('Uniformes Hombre');  // "Uniformes Hombre" es el valor por defecto
@@ -112,14 +116,19 @@ function RPedidos() {
 
     return (
         <div className="bg-slate-300 p-4 sm:p-10 flex justify-center items-center min-h-screen">
-            <div className="bg-slate-900 p-6 sm:p-10 rounded-lg shadow-lg w-full max-w-2xl">
-                <h2 className="text-3xl font-bold mb-8 text-center text-white">Registro de Pedido</h2>
+            <div className="bg-slate-900 p-6 sm:p-10 rounded-lg shadow-lg w-full max-w-5xl">
+                <h2 className="text-3xl font-bold mb-8 text-center text-white">
+                    {language === 'es' ? 'Registro de Pedido' : 'Order Registration'}
+                </h2>
                 <form onSubmit={store}>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        {/* Primera columna */}
+                    {/* Contenedor principal del formulario */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {/* Sección 1: Información del cliente */}
                         <div className="space-y-6">
                             <div>
-                                <label className="block text-white mb-2" htmlFor="Cliente">Cliente</label>
+                                <label className="block text-white mb-2" htmlFor="Cliente">
+                                    {language === 'es' ? 'Cliente' : 'Client'}
+                                </label>
                                 <input
                                     type="text"
                                     id="Cliente"
@@ -129,134 +138,18 @@ function RPedidos() {
                                     required
                                 />
                             </div>
-
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-white mb-2" htmlFor="Cantidad">Cantidad</label>
-                                    <input
-                                        type="number"
-                                        id="Cantidad"
-                                        value={Cantidad}
-                                        onChange={(e) => setCantidad(Math.max(1, e.target.value))}
-                                        className="w-full px-2 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-                                        required
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="block text-white mb-2" htmlFor="Prenda">Prenda</label>
-                                    <select
-                                        id="Prenda"
-                                        value={Prenda}
-                                        onChange={(e) => setPrenda(e.target.value)}
-                                        className="w-full px-2 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-                                        required
-                                    >
-                                        <option value="Camisetas">Camisetas</option>
-                                        <option value="Pantalones">Pantalones</option>
-                                        <option value="Chalecos">Chalecos</option>
-                                        <option value="Chaquetas">Chaquetas</option>
-                                        <option value="Uniformes Hombre">Uniforme Hombre (Camiseta + Pantalón)</option>
-                                        <option value="Uniformes Mujer">Uniforme Mujer (Camiseta + Falda)</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-white mb-2" htmlFor="Tela">Tela</label>
-                                    <div className="relative">
-                                        <input
-                                            type="text"
-                                            value={searchTerm}
-                                            onChange={(e) => setSearchTerm(e.target.value)}
-                                            placeholder="Buscar material"
-                                            className="w-full px-4 py-3 mb-2 border rounded-md bg-gray-700 text-black focus:outline-none focus:ring-2 focus:ring-purple-500"
-                                        />
-                                            {filteredTela.map((material) => (
-                                                <option key={material} value={material}>
-                                                    {material}
-                                                </option>
-                                            ))}
-    
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label className="block text-white mb-2" htmlFor="Estampado">Estampado</label>
-                                    <select
-                                        id="Estampado"
-                                        value={Estampado}
-                                        onChange={(e) => setEstampado(e.target.value)}
-                                        className="w-full px-2 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-                                        required
-                                    >
-                                        <option value="Sí">Sí</option>
-                                        <option value="No">No</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            {Estampado === 'Sí' && (
-                                <div>
-                                    <label className="block text-white mb-2" htmlFor="EspecificacionesEstampado">Especificaciones del Estampado</label>
-                                    <input
-                                        type="text"
-                                        id="EspecificacionesEstampado"
-                                        value={EspecificacionesEstampado}
-                                        onChange={(e) => setEspecificacionesEstampado(e.target.value)}
-                                        className="w-full px-4 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-                                    />
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Segunda columna */}
-                        <div className="space-y-6">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-white mb-2" htmlFor="Talla">Talla</label>
-                                    <select
-                                        id="Talla"
-                                        value={Talla}
-                                        onChange={(e) => setTalla(e.target.value)}
-                                        className="w-full px-2 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-                                        required
-                                    >
-                                        <option value="XS">XS</option>
-                                        <option value="S">S</option>
-                                        <option value="M">M</option>
-                                        <option value="L">L</option>
-                                        <option value="XL">XL</option>
-                                        <option value="XXL">XXL</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label className="block text-white mb-2" htmlFor="Bordado">Bordado</label>
-                                    <select
-                                        id="Bordado"
-                                        value={Bordado}
-                                        onChange={(e) => setBordado(e.target.value)}
-                                        className="w-full px-2 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-                                        required
-                                    >
-                                        <option value="Sí">Sí</option>
-                                        <option value="No">No</option>
-                                    </select>
-                                </div>
-                            </div>
-
                             <div>
-                                <label className="block text-white mb-2" htmlFor="id_Empleado">Empleado</label>
+                                <label className="block text-white mb-2" htmlFor="id_Empleado">
+                                    {language === 'es' ? 'Empleado' : 'Employee'}
+                                </label>
                                 <select
                                     id="id_Empleado"
                                     value={id_Empleado}
                                     onChange={(e) => setid_Empleado(e.target.value)}
-                                    className="w-full px-2 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                    className="w-full px-4 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                                     required
                                 >
-                                    <option value="">Seleccione Empleado</option>
+                                    <option value="">{language === 'es' ? 'Seleccione Empleado' : 'Select Employee'}</option>
                                     {empleados.map((empleado) => (
                                         <option key={empleado.id_Empleado} value={empleado.id_Empleado}>
                                             {empleado.Nombre}
@@ -264,17 +157,18 @@ function RPedidos() {
                                     ))}
                                 </select>
                             </div>
-
                             <div>
-                                <label className="block text-white mb-2" htmlFor="id_administrador">Administrador</label>
+                                <label className="block text-white mb-2" htmlFor="id_administrador">
+                                    {language === 'es' ? 'Administrador' : 'Administrator'}
+                                </label>
                                 <select
                                     id="id_administrador"
                                     value={id_administrador}
                                     onChange={(e) => setid_administrador(e.target.value)}
-                                    className="w-full px-2 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                    className="w-full px-4 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                                     required
                                 >
-                                    <option value="">Seleccione Administrador</option>
+                                    <option value="">{language === 'es' ? 'Seleccione Administrador' : 'Select Administrator'}</option>
                                     {administrador.map((admin) => (
                                         <option key={admin.id_administrador} value={admin.id_administrador}>
                                             {admin.nombre}
@@ -282,9 +176,83 @@ function RPedidos() {
                                     ))}
                                 </select>
                             </div>
+                        </div>
 
+                        {/* Sección 2: Especificaciones del pedido */}
+                        <div className="space-y-6">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-white mb-2" htmlFor="Cantidad">
+                                        {language === 'es' ? 'Cantidad' : 'Quantity'}
+                                    </label>
+                                    <input
+                                        type="number"
+                                        id="Cantidad"
+                                        value={Cantidad}
+                                        onChange={(e) => setCantidad(Math.max(1, e.target.value))}
+                                        className="w-full px-4 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-white mb-2" htmlFor="Prenda">
+                                        {language === 'es' ? 'Prenda' : 'Garment'}
+                                    </label>
+                                    <select
+                                        id="Prenda"
+                                        value={Prenda}
+                                        onChange={(e) => setPrenda(e.target.value)}
+                                        className="w-full px-4 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                        required
+                                    >
+                                        <option value="Camisetas">{language === 'es' ? 'Camisetas' : 'T-Shirts'}</option>
+                                        <option value="Pantalones">{language === 'es' ? 'Pantalones' : 'Pants'}</option>
+                                        <option value="Chalecos">{language === 'es' ? 'Chalecos' : 'Vests'}</option>
+                                        <option value="Chaquetas">{language === 'es' ? 'Chaquetas' : 'Jackets'}</option>
+                                        <option value="Uniformes Hombre">{language === 'es' ? 'Uniforme Hombre' : 'Men\'s Uniform'}</option>
+                                        <option value="Uniformes Mujer">{language === 'es' ? 'Uniforme Mujer' : 'Women\'s Uniform'}</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div>
-                                <label className="block text-white mb-2" htmlFor="PFinal">Precio Final</label>
+                                <label className="block text-white mb-2" htmlFor="Talla">
+                                    {language === 'es' ? 'Talla' : 'Size'}
+                                </label>
+                                <select
+                                    id="Talla"
+                                    value={Talla}
+                                    onChange={(e) => setTalla(e.target.value)}
+                                    className="w-full px-4 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                    required
+                                >
+                                    <option value="XS">XS</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                    <option value="XXL">XXL</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-white mb-2" htmlFor="Tela">
+                                    {language === 'es' ? 'Tela' : 'Fabric'}
+                                </label>
+                                <input
+                                    type="text"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    placeholder={language === 'es' ? 'Buscar material' : 'Search material'}
+                                    className="w-full px-4 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Sección 3: Detalles financieros */}
+                        <div className="space-y-6">
+                            <div>
+                                <label className="block text-white mb-2" htmlFor="PFinal">
+                                    {language === 'es' ? 'Precio Final' : 'Final Price'}
+                                </label>
                                 <input
                                     type="text"
                                     id="PFinal"
@@ -294,7 +262,9 @@ function RPedidos() {
                                 />
                             </div>
                             <div>
-                                <label className="block text-white mb-2" htmlFor="PInicial">Abano</label>
+                                <label className="block text-white mb-2" htmlFor="PInicial">
+                                    {language === 'es' ? 'Abono' : 'Initial Payment'}
+                                </label>
                                 <input
                                     type="number"
                                     id="PInicial"
@@ -306,12 +276,15 @@ function RPedidos() {
                         </div>
                     </div>
 
-                    <button
-                        type="submit"
-                        className="mt-6 w-full py-2 bg-indigo-500 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                        Registrar Pedido
-                    </button>
+                    {/* Botón de acción */}
+                    <div className="mt-8">
+                        <button
+                            type="submit"
+                            className="w-full py-3 bg-indigo-500 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                            {language === 'es' ? 'Registrar Pedido' : 'Register Order'}
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

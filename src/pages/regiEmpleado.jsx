@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from './LanguageContext'; // Importar el hook del contexto
+
 
 const URI = 'https://backend2-2h6s.onrender.com/api/Empleado/';
 const URI_ADMIN = 'https://backend2-2h6s.onrender.com/api/administrador';
@@ -18,6 +20,7 @@ function REmpleados() {
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate(); 
     const [administrador, setAdministrador] = useState([]);
+    const { language } = useLanguage();
 
     useEffect(() => {
         const fetchAdministrador = async () => {
@@ -42,19 +45,19 @@ function REmpleados() {
         const maxDate = new Date('2025-01-01');
     
         if (!Nombre || !nameRegex.test(Nombre)) {
-            newErrors.Nombre = 'El nombre solo puede contener letras.';
+            newErrors.Nombre = language === 'es' ? 'El nombre solo puede contener letras.' : 'The name can only contain letters.';
         }
         if (!contraseña || contraseña.length < minPassLength) { // Verificación de longitud mínima
-            newErrors.contraseña = 'La contraseña debe tener un mínimo de 6 dígitos.';
+            newErrors.contraseña = language === 'es' ? 'La contraseña debe tener un mínimo de 6 dígitos.' : 'The password must be at least 6 characters long.';
         }
         if (!Correo || !emailRegex.test(Correo) || !Correo.endsWith('.com')) {
-            newErrors.Correo = 'Por favor ingresa un correo válido que termine en ".com".';
+            newErrors.Correo = language === 'es' ? 'Por favor ingresa un correo válido que termine en ".com".' : 'Please enter a valid email ending with ".com".';
         }
         if (!celular || !phoneRegex.test(celular)) {
-            newErrors.celular = 'El número de celular debe tener al menos 10 dígitos y contener solo números.';
+            newErrors.celular = language === 'es' ? 'El número de celular debe tener al menos 10 dígitos y contener solo números.' : 'The phone number must have at least 10 digits and only numbers.';
         }
         if (!FechaN || selectedDate >= maxDate) {
-            newErrors.FechaN = 'La fecha de nacimiento no puede ser posterior a 2025.';
+            newErrors.FechaN = language === 'es' ? 'La fecha de nacimiento no puede ser posterior a 2025.' : 'The birth date cannot be later than 2025.';
         }
     
         setErrors(newErrors);
@@ -90,14 +93,14 @@ function REmpleados() {
         <div className="bg-slate-300 p-4 sm:p-10 flex justify-center items-center min-h-screen">
             <div className="p-6 sm:p-8 bg-slate-900 rounded-lg shadow-lg w-full max-w-3xl mx-auto">
                 <h2 className="text-2xl sm:text-3xl font-bold mb-8 text-center text-white">
-                    Registro Empleado
+                    {language === 'es' ? 'Registro Empleado' : 'Employee Registration'}
                 </h2>
                 <form onSubmit={store}>
                     {/* Grid responsive */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div>
                             <label className="block text-white mb-2" htmlFor="Nombre">
-                                Nombre
+                                {language === 'es' ? 'Nombre' : 'Name'}
                             </label>
                             <input
                                 type="text"
@@ -112,7 +115,7 @@ function REmpleados() {
 
                         <div>
                             <label className="block text-white mb-2" htmlFor="contraseña">
-                                Contraseña
+                                {language === 'es' ? 'Contraseña' : 'Password'}
                             </label>
                             <div className="relative">
                                 <input
@@ -144,7 +147,7 @@ function REmpleados() {
 
                         <div>
                             <label className="block text-white mb-2" htmlFor="TipoD">
-                                Tipo Documento
+                                {language === 'es' ? 'Tipo Documento' : 'Document Type'}
                             </label>
                             <select
                                 id="TipoD"
@@ -153,32 +156,33 @@ function REmpleados() {
                                 className="w-full px-4 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                                 required
                             >
-                                <option value="">Selecciona un tipo</option>
-                                <option value="CC">Cédula de Ciudadanía (CC)</option>
-                                <option value="TI">Tarjeta de Identidad (TI)</option>
-                                <option value="NIT">Número de Identificación Tributaria (NIT)</option>
-                                <option value="CE">Cédula de Extranjería (CE)</option>
-                                <option value="PA">Pasaporte (PA)</option>
+                                <option value="">{language === 'es' ? 'Selecciona un tipo' : 'Select a type'}</option>
+                                <option value="CC">{language === 'es' ? 'Cédula de Ciudadanía (CC)' : 'Citizenship ID (CC)'}</option>
+                                <option value="TI">{language === 'es' ? 'Tarjeta de Identidad (TI)' : 'Identity Card (TI)'}</option>
+                                <option value="NIT">{language === 'es' ? 'Número de Identificación Tributaria (NIT)' : 'Tax ID Number (NIT)'}</option>
+                                <option value="CE">{language === 'es' ? 'Cédula de Extranjería (CE)' : 'Foreign ID Card (CE)'}</option>
+                                <option value="PA">{language === 'es' ? 'Pasaporte (PA)' : 'Passport (PA)'}</option>
                             </select>
                         </div>
 
                         <div>
                             <label className="block text-white mb-2" htmlFor="NumeroD">
-                                Número Documento
+                                {language === 'es' ? 'Número Documento' : 'Document Number'}
                             </label>
                             <input
-                                type="number"
+                                type="text"
                                 id="NumeroD"
                                 value={NumeroD}
                                 onChange={(e) => setNumeroD(e.target.value)}
-                                className="w-full px-4 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                className={`w-full px-4 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 ${errors.NumeroD ? 'border-red-500' : ''}`}
                                 required
                             />
+                            {errors.NumeroD && <p className="text-red-500 text-sm mt-1">{errors.NumeroD}</p>}
                         </div>
 
                         <div>
                             <label className="block text-white mb-2" htmlFor="FechaN">
-                                Fecha Nacimiento
+                                {language === 'es' ? 'Fecha de Nacimiento' : 'Date of Birth'}
                             </label>
                             <input
                                 type="date"
@@ -193,7 +197,7 @@ function REmpleados() {
 
                         <div>
                             <label className="block text-white mb-2" htmlFor="Correo">
-                                Correo
+                                {language === 'es' ? 'Correo' : 'Email'}
                             </label>
                             <input
                                 type="email"
@@ -210,7 +214,7 @@ function REmpleados() {
                         <div className="col-span-1 sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div>
                                 <label className="block text-white mb-2" htmlFor="celular">
-                                    Celular
+                                    {language === 'es' ? 'Celular' : 'Phone'}
                                 </label>
                                 <input
                                     type="number"
@@ -225,7 +229,7 @@ function REmpleados() {
 
                             <div>
                                 <label className="block text-white mb-2" htmlFor="id_administrador">
-                                    Administrador
+                                    {language === 'es' ? 'Administrador' : 'Administrator'}
                                 </label>
                                 <select
                                         id="id_administrador"
@@ -234,7 +238,7 @@ function REmpleados() {
                                         className="w-full px-4 py-2 border rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                                         required
                                     >
-                                        <option value="">Selecciona un administrador</option>
+                                        <option value="">{language === 'es' ? 'Selecciona un administrador' : 'Select an administrator'}</option>
                                         {administrador.map((admin) => (
                                             <option key={admin.id_administrador} value={admin.id_administrador}>
                                                 {admin.Nombre}
@@ -246,17 +250,13 @@ function REmpleados() {
                     </div>
 
                     <div className="flex justify-center space-x-4 mt-6">
-                        <button
-                            onClick={() => navigate('/admin/iempleado')}
-                            className="px-4 sm:px-6 py-2 sm:py-3 rounded-lg bg-gray-500 text-white hover:bg-gray-600"
-                        >
-                            Cancelar
-                        </button>
+                        {/* Mensaje de error para duplicado */}
+                    {errors.duplicado && <p className="text-red-500 text-sm mt-2">{errors.duplicado}</p>}
                         <button
                             type="submit"
-                            className="px-4 sm:px-6 py-2 sm:py-3 rounded-lg bg-indigo-500 text-white hover:bg-indigo-700"
+                            className="w-full bg-indigo-500  text-white py-3 rounded-md font-semibold hover:bg-blue-700  focus:outline-none focus:ring-2 focus:ring-purple-500"
                         >
-                            registrar
+                            {language === 'es' ? 'Registrar Empleado' : 'Register Employee'}
                         </button>
                     </div>
                 </form>

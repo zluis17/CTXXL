@@ -108,7 +108,7 @@ const Sidebar = () => {
                 }`}
                 onClick={() => handleNotificationClick('pedidos')}
               >
-                <FaClipboardList className="mr-2" /> {language === 'es ' ? 'Inventario Pedidos':'Inventory Orders'}
+                <FaClipboardList className="mr-2" /> {language === 'es' ? 'Inventario Pedidos' : 'Orders Inventory'}
                 {notifications.pedidos > 0 && (
                   <span className="ml-auto bg-red-600 text-white text-xs px-2 py-1 rounded-full">
                     {notifications.pedidos}
