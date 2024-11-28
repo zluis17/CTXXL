@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AiTwotoneEye, AiFillEyeInvisible } from 'react-icons/ai';
 import PasswordResetForm from './RecuperarContra'; 
 import LogoCTXY from '../img/LogoCTXY.jpg'; 
-import { useAuth } from './AuthContext'; // Importa el contexto de autenticación
+import { useAuth } from '../components/authContext'; // Importa el contexto de autenticación
 
 function Login() {
   const [correo, setCorreo] = useState('');
