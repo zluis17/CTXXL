@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AiTwotoneEye, AiFillEyeInvisible } from 'react-icons/ai';
 import PasswordResetForm from './RecuperarContra'; 
 import LogoCTXY from '../img/LogoCTXY.jpg'; 
+import { useAuth } from './AuthContext'; // Importa el contexto de autenticación
 
 function Login() {
   const [correo, setCorreo] = useState('');
@@ -13,6 +14,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [mostrarContraseña, setMostrarContraseña] = useState(false); 
   const [modalVisible, setModalVisible] = useState(false); // Estado para mostrar el modal
+  const { login } = useAuth(); // Función de inicio de sesión desde el contexto
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -69,6 +71,10 @@ function Login() {
       const data = await response.json();
       console.log('Login exitoso:', data);
 
+      // Guardar la sesión en el contexto de autenticación
+      login({ ...data, tipoUsuario });
+
+      // Redirigir a la página correspondiente
       if (tipoUsuario === 'administrador') {
         navigate('/admin/home');
       } else {
@@ -116,7 +122,7 @@ function Login() {
             />
           </div>
 
-          <div className="mb-6 relative ">
+          <div className="mb-6 relative">
             <label className="block text-white mb-2" htmlFor="contraseña">Contraseña</label>
             <input
               type={mostrarContraseña ? 'text' : 'password'}
@@ -128,7 +134,7 @@ function Login() {
             />
             <span 
               onClick={() => setMostrarContraseña(!mostrarContraseña)}
-              className="aling-center absolute right-4 top-3/4 transform -translate-y-3/4 cursor-pointer text-white"
+              className="absolute right-4 top-3/4 transform -translate-y-3/4 cursor-pointer text-white"
             >
               {mostrarContraseña ? <AiFillEyeInvisible /> : <AiTwotoneEye />}
             </span>
