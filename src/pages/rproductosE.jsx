@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const URI = 'https://backend2-mhjh.onrender.com/api/productos/';
-const URI_ADMIN = 'https://backend2-mhjh.onrender.com/api/administrador';
-const URI_EMPLEADO = 'https://backend2-mhjh.onrender.com/api/empleado';
+const URI = 'https://backend2-2h6s.onrender.com/api/productos/';
+const URI_ADMIN = 'https://backend2-2h6s.onrender.com/api/administrador';
+const URI_EMPLEADO = 'https://backend2-2h6s.onrender.com/api/empleado';
 
 function Rproductos({ setModalVisible }) { 
     const [CantidadR, setCantidad] = useState('');
